@@ -253,7 +253,6 @@ public class StompClient {
     }
 
     private Completable subscribePath(String destinationPath, @Nullable List<StompHeader> headerList) {
-        String topicId = UUID.randomUUID().toString();
 
         if (topics == null) topics = new ConcurrentHashMap<>();
 
@@ -263,9 +262,9 @@ public class StompClient {
             return Completable.complete();
         }
 
-        topics.put(destinationPath, topicId);
+        topics.put(destinationPath, destinationPath);
         List<StompHeader> headers = new ArrayList<>();
-        headers.add(new StompHeader(StompHeader.ID, topicId));
+        headers.add(new StompHeader(StompHeader.ID, destinationPath));
         headers.add(new StompHeader(StompHeader.DESTINATION, destinationPath));
         headers.add(new StompHeader(StompHeader.ACK, DEFAULT_ACK));
         if (headerList != null) headers.addAll(headerList);
